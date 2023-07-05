@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:js';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -80,6 +81,7 @@ class ChatController extends GetxController {
       ) async {
     if (message.type == 0) {
       // Enviar datos del usuario al socket
+      context.callMethod('zE', ['messenger', 'hide']);
       socket.send(jsonEncode(
           {
             'type': 0,
@@ -91,8 +93,12 @@ class ChatController extends GetxController {
       //Mostrar vista nativa de Zendesk
       if (message.zendeskToken != null) {
         print('Iniciando sesión en Zendesk');
-        //await ZendeskMessaging.loginUser(jwt: message.zendeskToken!);
+        //await ZendeskMessaging.loginUser(jwt: message.zendeskToken!);s
+
+        //await context.callMethod('zE', ['messenger', 'loginUser', allowInterop((callback) {callback(message.zendeskToken!);})]);
         print('Mostrando vista de Zendesk');
+        context.callMethod('zE', ['messenger', 'open']);
+        context.callMethod('zE', ['messenger', 'show']);
         //ZendeskMessaging.show();
       }
     }
